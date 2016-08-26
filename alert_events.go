@@ -26,6 +26,15 @@ type EventOptions struct {
 	Page   int         `json:"page,omitempty"`
 }
 
-func (c *Client) GetEvents(options *EventOptions) error {
-	return nil
+type EventResponse struct {
+	RecentEvents []Event `json:"recent_events,omitempty"`
+}
+
+func (c *Client) GetEvents(options *EventOptions) (*EventResponse, error) {
+	events := &EventResponse{}
+	err := c.doRequest("GET", "/alerts_events.json", nil, events)
+	if err != nil {
+		return nil, err
+	}
+	return events, nil
 }

@@ -8,16 +8,28 @@
 
 package newrelic
 
-import "net/http"
+import (
+	"net/http"
+	"net/url"
+	"time"
+)
+
+const DEFAULT_API_URL = "https://api.newrelic.com/v2"
 
 type Client struct {
 	apiKey     string
-	HttpClient *http.Client
+	httpClient *http.Client
+	url        *url.URL
 }
 
 func NewClient(apiKey string) *Client {
+	u, err := url.Parse(DEFAULT_API_URL)
+	if err != nil {
+		panic(err)
+	}
 	return &Client{
 		apiKey:     apiKey,
-		HttpClient: http.DefaultClient,
+		httpClient: &http.Client{Timeout: 5 * time.Second},
+		url:        u,
 	}
 }
