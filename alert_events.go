@@ -1,8 +1,4 @@
-package alerts
-
-import (
-	"github.com/yfronto/newrelic"
-)
+package newrelic
 
 type Event struct {
 	Id            int    `json:"id,omitempty"`
@@ -30,6 +26,6 @@ type EventOptions struct {
 	Page   int         `json:"page,omitempty"`
 }
 
-func (c *newrelic.Client) GetEvents(options *EventOptions) error {
-
+func (c *Client) GetEvents(options *EventOptions) error {
+	return nil
 }
