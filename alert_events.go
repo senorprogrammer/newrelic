@@ -1,10 +1,5 @@
 package newrelic
 
-import (
-	"net/url"
-	"strconv"
-)
-
 type AlertEvent struct {
 	Id            int    `json:"id,omitempty"`
 	EventType     string `json:"event_type,omitempty"`
@@ -45,28 +40,12 @@ func (c *Client) GetAlertEvents(options *AlertEventOptions) (*AlertEventResponse
 }
 
 func (o *AlertEventOptions) encode() string {
-	opts := url.Values{}
-	for k, v := range map[string]interface{}{
+	return encodeGetParams(map[string]interface{}{
 		"filter[product]":         o.Filter.Product,
 		"filter[entity_type]":     o.Filter.EntityType,
 		"filter[entity_group_id]": o.Filter.EntityGroupId,
 		"filter[entity_id]":       o.Filter.EntityId,
 		"filter[event_type]":      o.Filter.EventType,
 		"page":                    o.Page,
-	} {
-		switch v.(type) {
-		case string:
-			val := v.(string)
-			if val != "" {
-				opts.Add(k, val)
-			}
-		case int:
-			val := v.(int)
-			// TODO: No value
-			if val != 0 {
-				opts.Add(k, strconv.Itoa(v.(int)))
-			}
-		}
-	}
-	return opts.Encode()
+	})
 }

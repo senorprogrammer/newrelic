@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -40,4 +42,24 @@ func (c *Client) doRequest(req *http.Request, out interface{}) error {
 		return err
 	}
 	return nil
+}
+
+func encodeGetParams(params map[string]interface{}) string {
+	s := url.Values{}
+	for k, v := range params {
+		switch v.(type) {
+		case string:
+			val := v.(string)
+			if val != "" {
+				s.Add(k, val)
+			}
+		case int:
+			val := v.(int)
+			// TODO: Zero values versus not defined
+			if val != 0 {
+				s.Add(k, strconv.Itoa(val))
+			}
+		}
+	}
+	return s.Encode()
 }
