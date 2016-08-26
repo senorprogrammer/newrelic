@@ -1,31 +1,25 @@
 package newrelic
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
-func (c *Client) doRequest(method, path string, body, out interface{}) error {
-	var r io.Reader
-	if method != "GET" && body != nil {
-		b, err := json.Marshal(body)
-		if err != nil {
-			return err
-		}
-		r = bytes.NewReader(b)
-	}
-	req, err := http.NewRequest(method, c.url.String()+path, r)
+func (c *Client) doGet(path, params string, out interface{}) error {
+	r := strings.NewReader(params)
+	req, err := http.NewRequest("GET", c.url.String()+path, r)
 	if err != nil {
 		return err
 	}
-	if r != nil {
-		req.Header.Add("Content-Type", "application/json")
-	}
 	req.Header.Add("X-Api-Key", c.apiKey)
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	return c.doRequest(req, out)
+}
+
+func (c *Client) doRequest(req *http.Request, out interface{}) error {
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return err
