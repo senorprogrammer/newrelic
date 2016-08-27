@@ -11,7 +11,7 @@ It's still in progress and I haven't finished the entirety of the API, yet. I
 plan to finish all GET (read) operations before any POST (create) operations,
 and then PUT (update) operations, and, finally, the DELETE operations.
 
-The API documentation can be found from (New Relic)[http://newrelic.com], and
+The API documentation can be found from [New Relic](http://newrelic.com), and
 you'll need an API key (for some operations, an Admin API key is required).
 
 ## USAGE
