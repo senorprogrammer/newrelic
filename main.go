@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-const DEFAULT_API_URL = "https://api.newrelic.com/v2"
+const DEFAULT_API_URL = "https://api.newrelic.com/v2/"
 
 type Client struct {
 	apiKey     string

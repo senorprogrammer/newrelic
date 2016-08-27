@@ -41,7 +41,7 @@ func (c *Client) GetAlertEvents(options *AlertEventOptions) ([]AlertEvent, error
 	resp := &struct {
 		RecentEvents []AlertEvent `json:"recent_events,omitempty"`
 	}{}
-	err := c.doGet("/alerts_events.json", options, resp)
+	err := c.doGet("alerts_events.json", options, resp)
 	if err != nil {
 		return nil, err
 	}

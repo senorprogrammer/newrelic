@@ -76,7 +76,7 @@ func (c *Client) GetApplications(options *ApplicationOptions) ([]Application, er
 	resp := &struct {
 		Applications []Application `json:"applications,omitempty"`
 	}{}
-	err := c.doGet("/applications.json", options, resp)
+	err := c.doGet("applications.json", options, resp)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (c *Client) GetApplication(id int) (*Application, error) {
 	resp := &struct {
 		Application Application `json:"application,omitempty"`
 	}{}
-	path := "/applications/" + strconv.Itoa(id) + ".json"
+	path := "applications/" + strconv.Itoa(id) + ".json"
 	err := c.doGet(path, nil, resp)
 	if err != nil {
 		return nil, err

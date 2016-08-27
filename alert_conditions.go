@@ -42,7 +42,7 @@ func (c *Client) GetAlertConditions(policy int, options *AlertConditionOptions) 
 		Conditions []AlertCondition `json:"conditions,omitempty"`
 	}{}
 	options.policyId = policy
-	err := c.doGet("/alerts_conditions.json", options, resp)
+	err := c.doGet("alerts_conditions.json", options, resp)
 	if err != nil {
 		return nil, err
 	}

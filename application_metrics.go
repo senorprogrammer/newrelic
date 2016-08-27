@@ -16,7 +16,7 @@ func (c *Client) GetApplicationMetrics(id int, options *ApplicationMetricOptions
 	resp := &struct {
 		Metrics []ApplicationMetric `json:"metrics,omitempty"`
 	}{}
-	path := "/applications/" + strconv.Itoa(id) + "/metrics.json"
+	path := "applications/" + strconv.Itoa(id) + "/metrics.json"
 	err := c.doGet(path, options, resp)
 	if err != nil {
 		return nil, err
