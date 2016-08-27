@@ -67,9 +67,9 @@ As I work to populate all actions, bugs are bound to come up. Feel free to
 send me a pull request or just file an issue. Staying up to date with an API
 is hard work and I'm happy to accept contributors.
 
-> DISCLAIMER: I am in no way affiliated with New Relic and this work is merely a
-> convenience project for myself with no guarantees. It should be considered
-> "as-is" with no implication of responsibility. See the included LICENSE for
-> more details.
+*_DISCLAIMER_: I am in no way affiliated with New Relic and this work is merely a
+convenience project for myself with no guarantees. It should be considered
+"as-is" with no implication of responsibility. See the included LICENSE for
+more details.*
 
 [1]: http://www.newrelic.com
