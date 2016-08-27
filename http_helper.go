@@ -59,6 +59,11 @@ func encodeGetParams(params map[string]interface{}) string {
 			if val != 0 {
 				s.Add(k, strconv.Itoa(val))
 			}
+		case []string:
+			val := v.([]string)
+			if len(val) != 0 {
+				s.Add(k, strings.Join(val, ","))
+			}
 		}
 	}
 	return s.Encode()

@@ -1,7 +1,6 @@
 package newrelic
 
 import (
-	"strings"
 	"time"
 )
 
@@ -79,7 +78,7 @@ func (o *ApplicationOptions) encode() string {
 	return encodeGetParams(map[string]interface{}{
 		"filter[name]":     o.Filter.Name,
 		"filter[host]":     o.Filter.Host,
-		"filter[ids]":      strings.Join(o.Filter.Ids, ","),
+		"filter[ids]":      o.Filter.Ids,
 		"filter[language]": o.Filter.Language,
 		"page":             o.Page,
 	})
