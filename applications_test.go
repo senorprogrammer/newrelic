@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	testApiKey          = "test_api_key"
+	testAPIKey          = "test_api_key"
 	fixtureDir          = "./test-fixtures"
-	testApplicationJson = `
+	testApplicationJSON = `
 {
   "application": {
     "application_summary": {
@@ -67,7 +67,7 @@ const (
 )
 
 var testApplication = &Application{
-	Id:             12345,
+	ID:             12345,
 	Name:           "test.example.com",
 	Language:       "java",
 	HealthStatus:   "green",
@@ -120,7 +120,7 @@ var getApplicationTests = []struct {
 	{
 		getApplicationInput{
 			id:   12345,
-			data: testApplicationJson,
+			data: testApplicationJSON,
 		},
 		getApplicationOutput{
 			data: testApplication,
@@ -136,7 +136,7 @@ func TestGetApplication(t *testing.T) {
 			w.WriteHeader(200)
 			fmt.Fprintf(w, tt.in.data)
 		}
-		c, s := initHttp(t, testApiKey, h)
+		c, s := initHTTP(t, testAPIKey, h)
 		defer s.Close()
 		resp, err := c.GetApplication(tt.in.id)
 		t.Logf("Checking err...")

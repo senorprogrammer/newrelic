@@ -45,7 +45,7 @@ func handlerFactory(code int) HandlerFunc {
 	}
 }
 
-func initHttp(t *testing.T, apiKey string, f HandlerFunc) (*Client, *httptest.Server) {
+func initHTTP(t *testing.T, apiKey string, f HandlerFunc) (*Client, *httptest.Server) {
 	mockServer := httptest.NewServer(http.HandlerFunc(f))
 	u, err := url.Parse(mockServer.URL)
 	if err != nil {
