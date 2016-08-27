@@ -66,42 +66,45 @@ const (
 `
 )
 
-var testApplication = &Application{
-	ID:             12345,
-	Name:           "test.example.com",
-	Language:       "java",
-	HealthStatus:   "green",
-	Reporting:      true,
-	LastReportedAt: Time{time.Date(2016, 1, 20, 20, 29, 38, 0, time.FixedZone("", 0))},
-	ApplicationSummary: ApplicationSummary{
-		ResponseTime:            0.263,
-		Throughput:              12.3,
-		ErrorRate:               0,
-		ApdexTarget:             0.5,
-		ApdexScore:              1,
-		HostCount:               1,
-		InstanceCount:           1,
-		ConcurrentInstanceCount: 0,
-	},
-	EndUserSummary: EndUserSummary{
-		ResponseTime: 0.263,
-		Throughput:   12.3,
-		ApdexTarget:  0.5,
-		ApdexScore:   1,
-	},
-	Settings: Settings{
-		AppApdexThreshold:        0.5,
-		EndUserApdexThreshold:    1,
-		EnableRealUserMonitoring: true,
-		UseServerSideConfig:      false,
-	},
-	Links: Links{
-		Servers:              []int{54321},
-		ApplicationHosts:     []int{1234567},
-		ApplicationInstances: []int{1234568},
-		AlertPolicy:          123,
-	},
-}
+var (
+	testTime, _     = time.Parse(time.RFC3339, "2016-01-20T20:29:38+00:00")
+	testApplication = &Application{
+		ID:             12345,
+		Name:           "test.example.com",
+		Language:       "java",
+		HealthStatus:   "green",
+		Reporting:      true,
+		LastReportedAt: Time{testTime},
+		ApplicationSummary: ApplicationSummary{
+			ResponseTime:            0.263,
+			Throughput:              12.3,
+			ErrorRate:               0,
+			ApdexTarget:             0.5,
+			ApdexScore:              1,
+			HostCount:               1,
+			InstanceCount:           1,
+			ConcurrentInstanceCount: 0,
+		},
+		EndUserSummary: EndUserSummary{
+			ResponseTime: 0.263,
+			Throughput:   12.3,
+			ApdexTarget:  0.5,
+			ApdexScore:   1,
+		},
+		Settings: Settings{
+			AppApdexThreshold:        0.5,
+			EndUserApdexThreshold:    1,
+			EnableRealUserMonitoring: true,
+			UseServerSideConfig:      false,
+		},
+		Links: Links{
+			Servers:              []int{54321},
+			ApplicationHosts:     []int{1234567},
+			ApplicationInstances: []int{1234568},
+			AlertPolicy:          123,
+		},
+	}
+)
 
 type getApplicationInput struct {
 	id   int

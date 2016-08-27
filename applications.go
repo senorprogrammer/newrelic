@@ -55,7 +55,7 @@ func (t *Time) UnmarshalJSON(b []byte) (err error) {
 	return
 }
 
-// UnmarshalJSON works like the default for time.Time but uses RFC3339.
+// MarshalJSON works like the default for time.Time but uses RFC3339.
 func (t *Time) MarshalJSON() ([]byte, error) {
 	return []byte(t.Time.Format(time.RFC3339)), nil
 }
