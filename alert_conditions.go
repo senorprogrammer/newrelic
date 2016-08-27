@@ -30,18 +30,16 @@ type AlertConditionOptions struct {
 	Page     int `json:"page,omitempty"`
 }
 
-type AlertConditionResponse struct {
-	Conditions []AlertCondition `json:"conditions,omitempty"`
-}
-
-func (c *Client) GetAlertConditions(policy int, options *AlertConditionOptions) (*AlertConditionResponse, error) {
-	conditions := &AlertConditionResponse{}
+func (c *Client) GetAlertConditions(policy int, options *AlertConditionOptions) ([]AlertCondition, error) {
+	conditions := &struct {
+		Conditions []AlertCondition `json:"conditions,omitempty"`
+	}{}
 	options.policyId = policy
 	err := c.doGet("/alerts_conditions.json", options.encode(), conditions)
 	if err != nil {
 		return nil, err
 	}
-	return conditions, nil
+	return conditions.Conditions, nil
 }
 
 func (o *AlertConditionOptions) encode() string {

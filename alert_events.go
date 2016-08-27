@@ -26,17 +26,15 @@ type AlertEventOptions struct {
 	Page   int              `json:"page,omitempty"`
 }
 
-type AlertEventResponse struct {
-	RecentEvents []AlertEvent `json:"recent_events,omitempty"`
-}
-
-func (c *Client) GetAlertEvents(options *AlertEventOptions) (*AlertEventResponse, error) {
-	events := &AlertEventResponse{}
+func (c *Client) GetAlertEvents(options *AlertEventOptions) ([]AlertEvent, error) {
+	events := &struct {
+		RecentEvents []AlertEvent `json:"recent_events,omitempty"`
+	}{}
 	err := c.doGet("/alerts_events.json", options.encode(), events)
 	if err != nil {
 		return nil, err
 	}
-	return events, nil
+	return events.RecentEvents, nil
 }
 
 func (o *AlertEventOptions) encode() string {
