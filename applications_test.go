@@ -72,7 +72,7 @@ var testApplication = &Application{
 	Language:       "java",
 	HealthStatus:   "green",
 	Reporting:      true,
-	LastReportedAt: time.Date(2016, 1, 20, 20, 29, 38, 0, time.FixedZone("", 0)),
+	LastReportedAt: time.Date(2016, 1, 20, 20, 29, 38, 0, time.FixedZone("Local", 0)),
 	ApplicationSummary: ApplicationSummary{
 		ResponseTime:            0.263,
 		Throughput:              12.3,
