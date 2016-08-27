@@ -27,14 +27,14 @@ type AlertEventOptions struct {
 }
 
 func (c *Client) GetAlertEvents(options *AlertEventOptions) ([]AlertEvent, error) {
-	events := &struct {
+	resp := &struct {
 		RecentEvents []AlertEvent `json:"recent_events,omitempty"`
 	}{}
-	err := c.doGet("/alerts_events.json", options.encode(), events)
+	err := c.doGet("/alerts_events.json", options.encode(), resp)
 	if err != nil {
 		return nil, err
 	}
-	return events.RecentEvents, nil
+	return resp.RecentEvents, nil
 }
 
 func (o *AlertEventOptions) encode() string {

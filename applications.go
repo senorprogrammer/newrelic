@@ -63,26 +63,26 @@ type ApplicationOptions struct {
 }
 
 func (c *Client) GetApplication(id int) (*Application, error) {
-	appResp := &struct {
+	resp := &struct {
 		Application Application `json:"application,omitempty"`
 	}{}
 	path := "/applications/" + strconv.Itoa(id) + ".json"
-	err := c.doGet(path, "", appResp)
+	err := c.doGet(path, "", resp)
 	if err != nil {
 		return nil, err
 	}
-	return &appResp.Application, nil
+	return &resp.Application, nil
 }
 
 func (c *Client) GetApplications(options *ApplicationOptions) ([]Application, error) {
-	apps := &struct {
+	resp := &struct {
 		Applications []Application `json:"applications,omitempty"`
 	}{}
-	err := c.doGet("/applications.json", options.encode(), apps)
+	err := c.doGet("/applications.json", options.encode(), resp)
 	if err != nil {
 		return nil, err
 	}
-	return apps.Applications, nil
+	return resp.Applications, nil
 }
 
 func (o *ApplicationOptions) encode() string {

@@ -31,15 +31,15 @@ type AlertConditionOptions struct {
 }
 
 func (c *Client) GetAlertConditions(policy int, options *AlertConditionOptions) ([]AlertCondition, error) {
-	conditions := &struct {
+	resp := &struct {
 		Conditions []AlertCondition `json:"conditions,omitempty"`
 	}{}
 	options.policyId = policy
-	err := c.doGet("/alerts_conditions.json", options.encode(), conditions)
+	err := c.doGet("/alerts_conditions.json", options.encode(), resp)
 	if err != nil {
 		return nil, err
 	}
-	return conditions.Conditions, nil
+	return resp.Conditions, nil
 }
 
 func (o *AlertConditionOptions) encode() string {
