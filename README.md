@@ -49,19 +49,25 @@ func main() {
       Product: "MyProduct",
     },
   }
-  // Get a list of recent events
+  // Get a list of recent events for my product
   events, err := client.GetAlertEvents(opts)
   if err != nil {
     // Handle error
   }
   // Display each event with some information
   for _, e := range events {
-    fmt.Printf("%d -- %d (%s): %s", e.Timestamp, e.Id, e.Priority, e.Description)
+    fmt.Printf("%d -- %d (%s): %s\n", e.Timestamp, e.Id, e.Priority, e.Description)
   }
 }
 ```
 
-DISCLAIMER: I am in no way affiliated with New Relic and this work is merely a
-convenience project for myself with no guarantees. It should be considered
-"as-is" with no implication of responsibility. See the included LICENSE for
-more details.
+## Contributing
+
+As I work to populate all actions, bugs are bound to come up. Feel free to
+send me a pull request or just file an issue. Staying up to date with an API
+is hard work and I'm happy to accept contributors.
+
+> DISCLAIMER: I am in no way affiliated with New Relic and this work is merely a
+> convenience project for myself with no guarantees. It should be considered
+> "as-is" with no implication of responsibility. See the included LICENSE for
+> more details.
