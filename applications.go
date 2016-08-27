@@ -41,25 +41,6 @@ type Links struct {
 	AlertPolicy          int   `json:"alert_policy,omitempty"`
 }
 
-// Time is just like time.Time but has a custom UnmarshalJSON
-type Time struct {
-	time.Time
-}
-
-// UnmarshalJSON works like the default for time.Time but uses RFC3339.
-func (t *Time) UnmarshalJSON(b []byte) (err error) {
-	if len(b) != 0 && b[0] == '"' && b[len(b)-1] == '"' {
-		b = b[1 : len(b)-1]
-	}
-	t.Time, err = time.Parse(time.RFC3339, string(b))
-	return
-}
-
-// MarshalJSON works like the default for time.Time but uses RFC3339.
-func (t *Time) MarshalJSON() ([]byte, error) {
-	return []byte(t.Time.Format(time.RFC3339)), nil
-}
-
 // Application describes a New Relic Application.
 type Application struct {
 	ID                 int                `json:"id,omitempty"`
@@ -67,7 +48,7 @@ type Application struct {
 	Language           string             `json:"language,omitempty"`
 	HealthStatus       string             `json:"health_status,omitempty"`
 	Reporting          bool               `json:"reporting,omitempty"`
-	LastReportedAt     Time               `json:"last_reported_at,omitempty"`
+	LastReportedAt     time.Time          `json:"last_reported_at,omitempty"`
 	ApplicationSummary ApplicationSummary `json:"application_summary,omitempty"`
 	EndUserSummary     EndUserSummary     `json:"end_user_summary,omitempty"`
 	Settings           Settings           `json:"settings,omitempty"`

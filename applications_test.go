@@ -74,7 +74,7 @@ var (
 		Language:       "java",
 		HealthStatus:   "green",
 		Reporting:      true,
-		LastReportedAt: Time{testTime},
+		LastReportedAt: testTime,
 		ApplicationSummary: ApplicationSummary{
 			ResponseTime:            0.263,
 			Throughput:              12.3,
