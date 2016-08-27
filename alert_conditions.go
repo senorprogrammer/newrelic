@@ -35,6 +35,9 @@ type AlertConditionOptions struct {
 }
 
 func (o *AlertConditionOptions) String() string {
+	if o == nil {
+		return ""
+	}
 	return encodeGetParams(map[string]interface{}{
 		"policy_id": o.policyID,
 		"page":      o.Page,

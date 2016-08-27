@@ -30,6 +30,9 @@ func (c *Client) GetApplicationMetrics(id int, options *ApplicationMetricOptions
 }
 
 func (o *ApplicationMetricOptions) String() string {
+	if o == nil {
+		return ""
+	}
 	return encodeGetParams(map[string]interface{}{
 		"name": o.Name,
 		"page": o.Page,

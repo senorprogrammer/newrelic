@@ -72,6 +72,9 @@ type ApplicationOptions struct {
 }
 
 func (o *ApplicationOptions) String() string {
+	if o == nil {
+		return ""
+	}
 	return encodeGetParams(map[string]interface{}{
 		"filter[name]":     o.Filter.Name,
 		"filter[host]":     o.Filter.Host,

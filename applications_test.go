@@ -11,8 +11,7 @@ const (
 	testAPIKey          = "test_api_key"
 	fixtureDir          = "./test-fixtures"
 	testApplicationJSON = `
-{
-  "application": {
+  {
     "application_summary": {
       "apdex_score": 1.0,
       "apdex_target": 0.5,
@@ -52,23 +51,13 @@ const (
       "end_user_apdex_threshold": 1.0,
       "use_server_side_config": false
     }
-  },
-  "links": {
-    "application.alert_policy": "/v2/alert_policies/{alert_policy_id}",
-    "application.application_host": "/v2/application/{application_id}/hosts/{host_id}",
-    "application.application_hosts": "/v2/application/{application_id}/hosts?ids={host_ids}",
-    "application.application_instance": "/v2/application/{application_id}/instances/{instance_id}",
-    "application.application_instances": "/v2/application/{application_id}/instances?ids={instance_ids}",
-    "application.server": "/v2/servers/{server_id}",
-    "application.servers": "/v2/servers?ids={server_ids}"
   }
-}
 `
 )
 
 var (
 	testTime, _     = time.Parse(time.RFC3339, "2016-01-20T20:29:38+00:00")
-	testApplication = &Application{
+	testApplication = Application{
 		ID:             12345,
 		Name:           "test.example.com",
 		Language:       "java",
@@ -104,6 +93,10 @@ var (
 			AlertPolicy:          123,
 		},
 	}
+	testApplications = []Application{
+		testApplication,
+		testApplication,
+	}
 )
 
 type getApplicationInput struct {
@@ -123,10 +116,36 @@ var getApplicationTests = []struct {
 	{
 		getApplicationInput{
 			id:   12345,
-			data: testApplicationJSON,
+			data: `{ "application":` + testApplicationJSON + `}`,
 		},
 		getApplicationOutput{
-			data: testApplication,
+			data: &testApplication,
+		},
+	},
+}
+
+type getApplicationsInput struct {
+	options *ApplicationOptions
+	data    string
+}
+
+type getApplicationsOutput struct {
+	data []Application
+	err  error
+}
+
+var getApplicationsTests = []struct {
+	in  getApplicationsInput
+	out getApplicationsOutput
+}{
+	{
+		getApplicationsInput{
+			options: nil,
+			data:    `{"applications":[` + testApplicationJSON + "," + testApplicationJSON + "]}",
+		},
+		getApplicationsOutput{
+			data: testApplications,
+			err:  nil,
 		},
 	},
 }
@@ -142,6 +161,24 @@ func TestGetApplication(t *testing.T) {
 		c, s := initHTTP(t, testAPIKey, h)
 		defer s.Close()
 		resp, err := c.GetApplication(tt.in.id)
+		t.Logf("Checking err...")
+		expect(t, tt.out.err, err)
+		t.Logf("Checking output...")
+		expect(t, tt.out.data, resp)
+	}
+}
+
+func TestGetApplications(t *testing.T) {
+	t.Logf("Starting TestGetApplication")
+	for _, tt := range getApplicationsTests {
+		t.Logf("Testing")
+		h := func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(200)
+			fmt.Fprintf(w, tt.in.data)
+		}
+		c, s := initHTTP(t, testAPIKey, h)
+		defer s.Close()
+		resp, err := c.GetApplications(tt.in.options)
 		t.Logf("Checking err...")
 		expect(t, tt.out.err, err)
 		t.Logf("Checking output...")

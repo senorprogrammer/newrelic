@@ -33,6 +33,9 @@ type AlertEventOptions struct {
 }
 
 func (o *AlertEventOptions) String() string {
+	if o == nil {
+		return ""
+	}
 	return encodeGetParams(map[string]interface{}{
 		"filter[product]":         o.Filter.Product,
 		"filter[entity_type]":     o.Filter.EntityType,
