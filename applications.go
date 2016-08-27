@@ -1,6 +1,7 @@
 package newrelic
 
 import (
+	"strconv"
 	"time"
 )
 
@@ -61,12 +62,26 @@ type ApplicationOptions struct {
 	Page   int               `json:"page,omitempty"`
 }
 
-type ApplicationResponse struct {
+type ApplicationsResponse struct {
 	Applications []Application `json:"applications,omitempty"`
 }
 
-func (c *Client) GetApplications(options *ApplicationOptions) (*ApplicationResponse, error) {
-	apps := &ApplicationResponse{}
+type ApplicationResponse struct {
+	Application Application `json:"application,omitempty"`
+}
+
+func (c *Client) GetApplication(id int) (*ApplicationResponse, error) {
+	app := &ApplicationResponse{}
+	path := "/applications/" + strconv.Itoa(id) + ".json"
+	err := c.doGet(path, "", app)
+	if err != nil {
+		return nil, err
+	}
+	return app, nil
+}
+
+func (c *Client) GetApplications(options *ApplicationOptions) (*ApplicationsResponse, error) {
+	apps := &ApplicationsResponse{}
 	err := c.doGet("/applications.json", options.encode(), apps)
 	if err != nil {
 		return nil, err
