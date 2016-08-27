@@ -22,8 +22,8 @@ type AlertEventFilter struct {
 }
 
 type AlertEventOptions struct {
-	Filter *AlertEventFilter `json:"filter,omitempty"`
-	Page   int               `json:"page,omitempty"`
+	Filter AlertEventFilter `json:"filter,omitempty"`
+	Page   int              `json:"page,omitempty"`
 }
 
 type AlertEventResponse struct {
