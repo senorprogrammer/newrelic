@@ -26,8 +26,15 @@ type AlertUserDefined struct {
 }
 
 type AlertConditionOptions struct {
-	policyId int `json:"policy_id,omitempty"`
-	Page     int `json:"page,omitempty"`
+	policyId int
+	Page     int
+}
+
+func (o *AlertConditionOptions) String() string {
+	return encodeGetParams(map[string]interface{}{
+		"policy_id": o.policyId,
+		"page":      o.Page,
+	})
 }
 
 func (c *Client) GetAlertConditions(policy int, options *AlertConditionOptions) ([]AlertCondition, error) {
@@ -35,16 +42,9 @@ func (c *Client) GetAlertConditions(policy int, options *AlertConditionOptions) 
 		Conditions []AlertCondition `json:"conditions,omitempty"`
 	}{}
 	options.policyId = policy
-	err := c.doGet("/alerts_conditions.json", options.encode(), resp)
+	err := c.doGet("/alerts_conditions.json", options, resp)
 	if err != nil {
 		return nil, err
 	}
 	return resp.Conditions, nil
-}
-
-func (o *AlertConditionOptions) encode() string {
-	return encodeGetParams(map[string]interface{}{
-		"policy_id": o.policyId,
-		"page":      o.Page,
-	})
 }

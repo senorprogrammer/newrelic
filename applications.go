@@ -51,41 +51,18 @@ type Application struct {
 }
 
 type ApplicationFilter struct {
-	Name     string   `json:"name,omitempty"`
-	Host     string   `json:"host,omitempty"`
-	Ids      []string `json:"host,omitempty"`
-	Language string   `json:"language,omitempty"`
+	Name     string
+	Host     string
+	Ids      []string
+	Language string
 }
 
 type ApplicationOptions struct {
-	Filter ApplicationFilter `json:"filter,omitempty"`
-	Page   int               `json:"page,omitempty"`
+	Filter ApplicationFilter
+	Page   int
 }
 
-func (c *Client) GetApplication(id int) (*Application, error) {
-	resp := &struct {
-		Application Application `json:"application,omitempty"`
-	}{}
-	path := "/applications/" + strconv.Itoa(id) + ".json"
-	err := c.doGet(path, "", resp)
-	if err != nil {
-		return nil, err
-	}
-	return &resp.Application, nil
-}
-
-func (c *Client) GetApplications(options *ApplicationOptions) ([]Application, error) {
-	resp := &struct {
-		Applications []Application `json:"applications,omitempty"`
-	}{}
-	err := c.doGet("/applications.json", options.encode(), resp)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Applications, nil
-}
-
-func (o *ApplicationOptions) encode() string {
+func (o *ApplicationOptions) String() string {
 	return encodeGetParams(map[string]interface{}{
 		"filter[name]":     o.Filter.Name,
 		"filter[host]":     o.Filter.Host,
@@ -93,4 +70,27 @@ func (o *ApplicationOptions) encode() string {
 		"filter[language]": o.Filter.Language,
 		"page":             o.Page,
 	})
+}
+
+func (c *Client) GetApplications(options *ApplicationOptions) ([]Application, error) {
+	resp := &struct {
+		Applications []Application `json:"applications,omitempty"`
+	}{}
+	err := c.doGet("/applications.json", options, resp)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Applications, nil
+}
+
+func (c *Client) GetApplication(id int) (*Application, error) {
+	resp := &struct {
+		Application Application `json:"application,omitempty"`
+	}{}
+	path := "/applications/" + strconv.Itoa(id) + ".json"
+	err := c.doGet(path, nil, resp)
+	if err != nil {
+		return nil, err
+	}
+	return &resp.Application, nil
 }

@@ -10,8 +10,12 @@ import (
 	"strings"
 )
 
-func (c *Client) doGet(path, params string, out interface{}) error {
-	r := strings.NewReader(params)
+func (c *Client) doGet(path string, params fmt.Stringer, out interface{}) error {
+	var s string
+	if params != nil {
+		s = params.String()
+	}
+	r := strings.NewReader(s)
 	req, err := http.NewRequest("GET", c.url.String()+path, r)
 	if err != nil {
 		return err
