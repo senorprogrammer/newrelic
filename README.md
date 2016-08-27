@@ -4,14 +4,14 @@ status](https://travis-ci.org/yfronto/newrelic.svg)](https://travis-ci.org/yfron
 
 # New Relic API library for Go
 
-This is a Go library that wraps the [[New Relic]][1] REST
+This is a Go library that wraps the [New Relic][1] REST
 API. It provides the needed types to interact with the New Relic REST API.
 
 It's still in progress and I haven't finished the entirety of the API, yet. I
 plan to finish all GET (read) operations before any POST (create) operations,
 and then PUT (update) operations, and, finally, the DELETE operations.
 
-The API documentation can be found from [[New Relic]][1],
+The API documentation can be found from [New Relic][1],
 and you'll need an API key (for some operations, an Admin API key is
 required).
 
