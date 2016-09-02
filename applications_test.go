@@ -9,7 +9,6 @@ import (
 
 const (
 	testAPIKey          = "test_api_key"
-	fixtureDir          = "./test-fixtures"
 	testApplicationJSON = `
   {
     "application_summary": {
@@ -150,6 +149,36 @@ var getApplicationsTests = []struct {
 	},
 }
 
+var testApplicationOptionsStringer = []struct {
+	in  *ApplicationOptions
+	out string
+}{
+	{
+		&ApplicationOptions{},
+		"",
+	},
+	{
+		&ApplicationOptions{
+			Filter: ApplicationFilter{
+				Name:     "testName",
+				Host:     "testHost",
+				Ids:      []string{"test1", "test2"},
+				Language: "java",
+			},
+			Page: 5,
+		},
+		`filter%5Bhost%5D=testHost` +
+			`&filter%5Bids%5D=test1%2Ctest2` +
+			`&filter%5Blanguage%5D=java` +
+			`&filter%5Bname%5D=testName` +
+			`&page=5`,
+	},
+	{
+		nil,
+		"",
+	},
+}
+
 func TestGetApplication(t *testing.T) {
 	t.Logf("Starting TestGetApplication")
 	for _, tt := range getApplicationTests {
@@ -183,5 +212,13 @@ func TestGetApplications(t *testing.T) {
 		expect(t, tt.out.err, err)
 		t.Logf("Checking output...")
 		expect(t, tt.out.data, resp)
+	}
+}
+
+func TestApplicationOptionsStringer(t *testing.T) {
+	t.Logf("Starting TestApplicationOptionsStringer")
+	for _, tt := range testApplicationOptionsStringer {
+		t.Logf("Testing")
+		expect(t, tt.in.String(), tt.out)
 	}
 }
