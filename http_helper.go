@@ -68,6 +68,8 @@ func encodeGetParams(params map[string]interface{}) string {
 			if len(val) != 0 {
 				s.Add(k, strings.Join(val, ","))
 			}
+		default:
+			s.Add(k, fmt.Sprintf("%v", v))
 		}
 	}
 	return s.Encode()
