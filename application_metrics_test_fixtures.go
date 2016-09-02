@@ -50,26 +50,25 @@ var (
 			},
 		},
 	}
-)
-
-var applicationMetricOptionsStringerTests = []struct {
-	in  *ApplicationMetricOptions
-	out string
-}{
-	{
-		&ApplicationMetricOptions{},
-		"",
-	},
-	{
-		nil,
-		"",
-	},
-	{
-		&ApplicationMetricOptions{
-			Name: "testName",
-			Page: 5,
+	applicationMetricOptionsStringerTests = []struct {
+		in  *ApplicationMetricOptions
+		out string
+	}{
+		{
+			&ApplicationMetricOptions{},
+			"",
 		},
-		"name=testName" +
-			"&page=5",
-	},
-}
+		{
+			nil,
+			"",
+		},
+		{
+			&ApplicationMetricOptions{
+				Name: "testName",
+				Page: 5,
+			},
+			"name=testName" +
+				"&page=5",
+		},
+	}
+)
