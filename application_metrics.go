@@ -17,17 +17,24 @@ type ApplicationMetricOptions struct {
 	Page int
 }
 
+// ApplicationTimeslice represents a specific set of data for a specific
+// period of a particular ApplicationMetricData.
 type ApplicationTimeslice struct {
 	From   time.Time          `json:"from,omitempty"`
 	To     time.Time          `json:"to,omitempty"`
 	Values map[string]float64 `json:"values,omitempty"`
 }
 
+// ApplicationMetricData represents data that exists for a particular
+// ApplicationMetric.
 type ApplicationMetricData struct {
 	Name       string                 `json:"name,omitempty"`
 	Timeslices []ApplicationTimeslice `json:"timeslices,omitempty"`
 }
 
+// ApplicationMetricDataResp is a response to GetApplicationMetricData, which
+// includes the full time period, any metrics found, any metrics not found,
+// and a slice of the metrics found.
 type ApplicationMetricDataResp struct {
 	From            time.Time               `json:"from,omitempty"`
 	To              time.Time               `json:"to,omitempty"`
@@ -36,6 +43,8 @@ type ApplicationMetricDataResp struct {
 	Metrics         []ApplicationMetricData `json:"metrics,omitempty"`
 }
 
+// ApplicationMetricDataOptions provide a means of filtering metrics when
+// calling GetApplicationMetricData.
 type ApplicationMetricDataOptions struct {
 	names     Array
 	Values    Array
@@ -61,6 +70,9 @@ func (c *Client) GetApplicationMetrics(id int, options *ApplicationMetricOptions
 	return resp.Metrics, nil
 }
 
+// GetApplicationMetricData will return all metric data for a particular
+// application and slice of metric names, optionally filtered by
+// ApplicationMetricDataOptions.
 func (c *Client) GetApplicationMetricData(id int, names []string, options *ApplicationMetricDataOptions) (*ApplicationMetricDataResp, error) {
 	resp := &struct {
 		MetricData ApplicationMetricDataResp `json:"metric_data",omitempty`
