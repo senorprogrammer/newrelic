@@ -2,6 +2,8 @@ package newrelic
 
 import (
 	"errors"
+	"net/http"
+	"strings"
 )
 
 type testJSONInterface struct {
@@ -54,6 +56,40 @@ var (
 			},
 			doGetTestsOutput{
 				err: errors.New("newrelic http error (404 Not Found): Not Found"),
+			},
+		},
+	}
+)
+
+type doRequestTestsInput struct {
+	req    *http.Request
+	out    testJSONInterface
+	status int
+	data   string
+}
+
+type doRequestTestOutput struct {
+	data testJSONInterface
+	err  error
+}
+
+var (
+	testRequest, _ = http.NewRequest("GET", "http://testPath",
+		strings.NewReader("testBody"))
+	doRequestTests = []struct {
+		in  doRequestTestsInput
+		out doRequestTestOutput
+	}{
+		{
+			doRequestTestsInput{
+				req:    testRequest,
+				out:    testJSONInterface{"testData"},
+				status: 200,
+				data:   `{"data": "testStructData"}`,
+			},
+			doRequestTestOutput{
+				data: testJSONInterface{"testData"},
+				err:  nil,
 			},
 		},
 	}
