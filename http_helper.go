@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func (c *Client) doGet(path string, params fmt.Stringer, out interface{}) error {
@@ -67,6 +68,16 @@ func encodeGetParams(params map[string]interface{}) string {
 			val := v.([]string)
 			if len(val) != 0 {
 				s.Add(k, strings.Join(val, ","))
+			}
+		case time.Time:
+			val := v.(time.Time)
+			if !val.IsZero() {
+				s.Add(k, val.String())
+			}
+		case Array:
+			val := v.(Array)
+			for _, v := range val.arr {
+				s.Add(k, v)
 			}
 		default:
 			s.Add(k, fmt.Sprintf("%v", v))
