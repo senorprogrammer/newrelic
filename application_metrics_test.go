@@ -24,10 +24,20 @@ func TestGetApplicationMetrics(t *testing.T) {
 	}
 }
 
+func TestGetApplicationMetricData(t *testing.T) {
+	t.Log("Starting TestGetApplicationMetricData")
+	// TODO
+}
+
 func TestApplicationMetricOptionsStringer(t *testing.T) {
 	t.Logf("Starting TestApplicationMetricOptionsStringer")
 	for _, tt := range applicationMetricOptionsStringerTests {
 		t.Logf("Testing")
 		expect(t, tt.out, tt.in.String())
 	}
+}
+
+func TestApplicationMetricDataOptionsStringer(t *testing.T) {
+	t.Logf("Starting TestApplicationMetricDataOptionsStringer")
+	// TODO
 }
