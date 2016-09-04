@@ -69,8 +69,15 @@ var (
 				"testInt":         5,
 				"testString":      "test",
 				"testStringSlice": []string{"test1", "test2"},
+				"testArray":       Array{[]string{"test1", "test2"}},
+				"testTime":        testTime,
 			},
-			"testInt=5&testString=test&testStringSlice=test1%2Ctest2",
+			"testArray=test1" +
+				"&testArray=test2" +
+				"&testInt=5" +
+				"&testString=test" +
+				"&testStringSlice=test1%2Ctest2" +
+				"&testTime=2016-01-20+20%3A29%3A38+%2B0000+%2B0000",
 		},
 		{
 			map[string]interface{}{
