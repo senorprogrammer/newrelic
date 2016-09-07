@@ -14,10 +14,6 @@ type testParamsInterface struct {
 	data string
 }
 
-func (m *testParamsInterface) String() string {
-	return "data=testData"
-}
-
 type doGetTestsInput struct {
 	path   string
 	params *testParamsInterface
@@ -27,6 +23,18 @@ type doGetTestsInput struct {
 }
 
 type doGetTestsOutput struct {
+	data testJSONInterface
+	err  error
+}
+
+type doRequestTestsInput struct {
+	req    *http.Request
+	out    testJSONInterface
+	status int
+	data   string
+}
+
+type doRequestTestOutput struct {
 	data testJSONInterface
 	err  error
 }
@@ -59,21 +67,6 @@ var (
 			},
 		},
 	}
-)
-
-type doRequestTestsInput struct {
-	req    *http.Request
-	out    testJSONInterface
-	status int
-	data   string
-}
-
-type doRequestTestOutput struct {
-	data testJSONInterface
-	err  error
-}
-
-var (
 	testRequest, _ = http.NewRequest("GET", "http://testPath",
 		strings.NewReader("testBody"))
 	doRequestTests = []struct {
@@ -93,9 +86,6 @@ var (
 			},
 		},
 	}
-)
-
-var (
 	encodeGetParamsTests = []struct {
 		in  map[string]interface{}
 		out string
@@ -123,3 +113,7 @@ var (
 		},
 	}
 )
+
+func (m *testParamsInterface) String() string {
+	return "data=testData"
+}

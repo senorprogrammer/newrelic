@@ -79,6 +79,10 @@ func encodeGetParams(params map[string]interface{}) string {
 			for _, v := range val.arr {
 				s.Add(k, v)
 			}
+		case bool:
+			if v.(bool) {
+				s.Add(k, "true")
+			}
 		default:
 			s.Add(k, fmt.Sprintf("%v", v))
 		}

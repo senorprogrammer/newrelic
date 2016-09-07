@@ -77,6 +77,9 @@ func (c *Client) GetApplicationMetricData(id int, names []string, options *Appli
 	resp := &struct {
 		MetricData ApplicationMetricDataResp `json:"metric_data",omitempty`
 	}{}
+	if options == nil {
+		options = &ApplicationMetricDataOptions{}
+	}
 	options.names = Array{names}
 	path := "applications/" + strconv.Itoa(id) + "/metrics/data.json"
 	err := c.doGet(path, options, resp)

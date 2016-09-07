@@ -11,6 +11,18 @@ type getApplicationMetricsTestsOutput struct {
 	err  error
 }
 
+type getApplicationMetricDataTestsInput struct {
+	id      int
+	names   []string
+	options *ApplicationMetricDataOptions
+	data    string
+}
+
+type getApplicationMetricDataTestsOutput struct {
+	data *ApplicationMetricDataResp
+	err  error
+}
+
 const (
 	testApplicationMetricJSON = `
   {
@@ -69,6 +81,95 @@ var (
 			},
 			"name=testName" +
 				"&page=5",
+		},
+	}
+	applicationMetricDataOptionsStringerTests = []struct {
+		in  *ApplicationMetricDataOptions
+		out string
+	}{
+		{
+			&ApplicationMetricDataOptions{},
+			"",
+		},
+		{
+			nil,
+			"",
+		},
+		{
+			&ApplicationMetricDataOptions{
+				names:     Array{[]string{"test1", "test2"}},
+				Values:    Array{[]string{"value1", "value2"}},
+				From:      testTime,
+				To:        testTime,
+				Period:    123,
+				Summarize: true,
+				Raw:       true,
+			},
+			"from=2016-01-20+20%3A29%3A38+%2B0000+%2B0000" +
+				"&names%5B%5D=test1" +
+				"&names%5B%5D=test2" +
+				"&period=123" +
+				"&raw=true" +
+				"&summarize=true" +
+				"&to=2016-01-20+20%3A29%3A38+%2B0000+%2B0000" +
+				"&values%5B%5D=value1&values%5B%5D=value2",
+		},
+	}
+	testApplicationMetricDataJSON = `
+  {
+    "metric_data": {
+      "from": "` + testTimeString + `",
+      "to": "` + testTimeString + `",
+      "metrics_found": ["name1"],
+      "metrics_not_found": ["name2"],
+      "metrics": [
+        {
+          "name": "testName",
+          "timeslices": [
+            {
+              "from": "` + testTimeString + `",
+              "to": "` + testTimeString + `",
+              "values": {"testVal": 1.234}
+            }
+          ]
+        }
+      ]
+    }
+  }
+`
+	testApplicationMetricData = ApplicationMetricData{
+		Name: "testName",
+		Timeslices: []ApplicationTimeslice{
+			ApplicationTimeslice{
+				From: testTime,
+				To:   testTime,
+				Values: map[string]float64{
+					"testVal": 1.234,
+				},
+			},
+		},
+	}
+	getApplicaitonMetricDataTests = []struct {
+		in  getApplicationMetricDataTestsInput
+		out getApplicationMetricDataTestsOutput
+	}{
+		{
+			getApplicationMetricDataTestsInput{
+				id:      1234,
+				names:   []string{"name1", "name2"},
+				options: &ApplicationMetricDataOptions{},
+				data:    testApplicationMetricDataJSON,
+			},
+			getApplicationMetricDataTestsOutput{
+				data: &ApplicationMetricDataResp{
+					From:            testTime,
+					To:              testTime,
+					MetricsFound:    []string{"name1"},
+					MetricsNotFound: []string{"name2"},
+					Metrics:         []ApplicationMetricData{testApplicationMetricData},
+				},
+				err: nil,
+			},
 		},
 	}
 )

@@ -26,7 +26,20 @@ func TestGetApplicationMetrics(t *testing.T) {
 
 func TestGetApplicationMetricData(t *testing.T) {
 	t.Log("Starting TestGetApplicationMetricData")
-	// TODO
+	for _, tt := range getApplicaitonMetricDataTests {
+		t.Logf("Testing")
+		f := func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(200)
+			fmt.Fprintf(w, tt.in.data)
+		}
+		c, s := initHTTP(t, testAPIKey, f)
+		defer s.Close()
+		resp, err := c.GetApplicationMetricData(tt.in.id, tt.in.names, tt.in.options)
+		t.Logf("Checking err...")
+		expect(t, tt.out.err, err)
+		t.Logf("Checking output...")
+		expect(t, tt.out.data, resp)
+	}
 }
 
 func TestApplicationMetricOptionsStringer(t *testing.T) {
@@ -39,5 +52,8 @@ func TestApplicationMetricOptionsStringer(t *testing.T) {
 
 func TestApplicationMetricDataOptionsStringer(t *testing.T) {
 	t.Logf("Starting TestApplicationMetricDataOptionsStringer")
-	// TODO
+	for _, tt := range applicationMetricDataOptionsStringerTests {
+		t.Logf("Testing")
+		expect(t, tt.out, tt.in.String())
+	}
 }

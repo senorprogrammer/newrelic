@@ -1,5 +1,15 @@
 package newrelic
 
+type getAlertEventsTestsInput struct {
+	options *AlertEventOptions
+	data    string
+}
+
+type getAlertEventsTestsOutput struct {
+	data []AlertEvent
+	err  error
+}
+
 const (
 	testAlertEventJSON = `
   {
@@ -16,16 +26,6 @@ const (
   }
 `
 )
-
-type getAlertEventsTestsInput struct {
-	options *AlertEventOptions
-	data    string
-}
-
-type getAlertEventsTestsOutput struct {
-	data []AlertEvent
-	err  error
-}
 
 var (
 	testAlertEvent = AlertEvent{

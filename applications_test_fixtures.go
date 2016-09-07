@@ -1,11 +1,26 @@
 package newrelic
 
-import (
-	"time"
-)
+type getApplicationsTestsInput struct {
+	options *ApplicationOptions
+	data    string
+}
+
+type getApplicationsTestsOutput struct {
+	data []Application
+	err  error
+}
+
+type getApplicationTestsInput struct {
+	id   int
+	data string
+}
+
+type getApplicationTestsOutput struct {
+	data *Application
+	err  error
+}
 
 const (
-	testAPIKey          = "test_api_key"
 	testApplicationJSON = `
   {
     "application_summary": {
@@ -26,7 +41,7 @@ const (
     "health_status": "green",
     "id": 12345,
     "language": "java",
-    "last_reported_at": "2016-01-20T20:29:38+00:00",
+    "last_reported_at": "` + testTimeString + `",
     "links": {
       "alert_policy": 123,
       "application_hosts": [
@@ -52,7 +67,6 @@ const (
 )
 
 var (
-	testTime, _     = time.Parse(time.RFC3339, "2016-01-20T20:29:38+00:00")
 	testApplication = Application{
 		ID:             12345,
 		Name:           "test.example.com",
@@ -93,85 +107,62 @@ var (
 		testApplication,
 		testApplication,
 	}
-)
-
-type getApplicationTestsInput struct {
-	id   int
-	data string
-}
-
-type getApplicationTestsOutput struct {
-	data *Application
-	err  error
-}
-
-var getApplicationTests = []struct {
-	in  getApplicationTestsInput
-	out getApplicationTestsOutput
-}{
-	{
-		getApplicationTestsInput{
-			id:   12345,
-			data: `{ "application":` + testApplicationJSON + `}`,
-		},
-		getApplicationTestsOutput{
-			data: &testApplication,
-		},
-	},
-}
-
-type getApplicationsTestsInput struct {
-	options *ApplicationOptions
-	data    string
-}
-
-type getApplicationsTestsOutput struct {
-	data []Application
-	err  error
-}
-
-var getApplicationsTests = []struct {
-	in  getApplicationsTestsInput
-	out getApplicationsTestsOutput
-}{
-	{
-		getApplicationsTestsInput{
-			options: nil,
-			data:    `{"applications":[` + testApplicationJSON + "," + testApplicationJSON + "]}",
-		},
-		getApplicationsTestsOutput{
-			data: testApplications,
-			err:  nil,
-		},
-	},
-}
-
-var applicationOptionsStringerTests = []struct {
-	in  *ApplicationOptions
-	out string
-}{
-	{
-		&ApplicationOptions{},
-		"",
-	},
-	{
-		&ApplicationOptions{
-			Filter: ApplicationFilter{
-				Name:     "testName",
-				Host:     "testHost",
-				Ids:      []string{"test1", "test2"},
-				Language: "java",
+	getApplicationTests = []struct {
+		in  getApplicationTestsInput
+		out getApplicationTestsOutput
+	}{
+		{
+			getApplicationTestsInput{
+				id:   12345,
+				data: `{ "application":` + testApplicationJSON + `}`,
 			},
-			Page: 5,
+			getApplicationTestsOutput{
+				data: &testApplication,
+			},
 		},
-		`filter%5Bhost%5D=testHost` +
-			`&filter%5Bids%5D=test1%2Ctest2` +
-			`&filter%5Blanguage%5D=java` +
-			`&filter%5Bname%5D=testName` +
-			`&page=5`,
-	},
-	{
-		nil,
-		"",
-	},
-}
+	}
+	getApplicationsTests = []struct {
+		in  getApplicationsTestsInput
+		out getApplicationsTestsOutput
+	}{
+		{
+			getApplicationsTestsInput{
+				options: nil,
+				data:    `{"applications":[` + testApplicationJSON + "," + testApplicationJSON + "]}",
+			},
+			getApplicationsTestsOutput{
+				data: testApplications,
+				err:  nil,
+			},
+		},
+	}
+	applicationOptionsStringerTests = []struct {
+		in  *ApplicationOptions
+		out string
+	}{
+		{
+			&ApplicationOptions{},
+			"",
+		},
+		{
+			&ApplicationOptions{
+				Filter: ApplicationFilter{
+					Name:     "testName",
+					Host:     "testHost",
+					Ids:      []string{"test1", "test2"},
+					Language: "java",
+				},
+				Page: 5,
+			},
+			`filter%5Bhost%5D=testHost` +
+				`&filter%5Bids%5D=test1%2Ctest2` +
+				`&filter%5Blanguage%5D=java` +
+				`&filter%5Bname%5D=testName` +
+				`&page=5`,
+		},
+		{
+			nil,
+			"",
+		},
+	}
+)
