@@ -103,7 +103,7 @@ var (
 				"&testInt=5" +
 				"&testString=test" +
 				"&testStringSlice=test1%2Ctest2" +
-				"&testTime=2016-01-20+20%3A29%3A38+%2B0000+%2B0000",
+				"&testTime=" + testTimeStringEscaped,
 		},
 		{
 			map[string]interface{}{

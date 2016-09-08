@@ -105,21 +105,21 @@ var (
 				Summarize: true,
 				Raw:       true,
 			},
-			"from=2016-01-20+20%3A29%3A38+%2B0000+%2B0000" +
+			"from=" + testTimeStringEscaped +
 				"&names%5B%5D=test1" +
 				"&names%5B%5D=test2" +
 				"&period=123" +
 				"&raw=true" +
 				"&summarize=true" +
-				"&to=2016-01-20+20%3A29%3A38+%2B0000+%2B0000" +
+				"&to=" + testTimeStringEscaped +
 				"&values%5B%5D=value1&values%5B%5D=value2",
 		},
 	}
 	testApplicationMetricDataJSON = `
   {
     "metric_data": {
-      "from": "` + testTimeString + `",
-      "to": "` + testTimeString + `",
+      "from": "` + testTimeRawString + `",
+      "to": "` + testTimeRawString + `",
       "metrics_found": ["name1"],
       "metrics_not_found": ["name2"],
       "metrics": [
@@ -127,8 +127,8 @@ var (
           "name": "testName",
           "timeslices": [
             {
-              "from": "` + testTimeString + `",
-              "to": "` + testTimeString + `",
+              "from": "` + testTimeRawString + `",
+              "to": "` + testTimeRawString + `",
               "values": {"testVal": 1.234}
             }
           ]

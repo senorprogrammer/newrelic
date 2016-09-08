@@ -20,7 +20,7 @@ type getApplicationTestsOutput struct {
 	err  error
 }
 
-const (
+var (
 	testApplicationJSON = `
   {
     "application_summary": {
@@ -41,7 +41,7 @@ const (
     "health_status": "green",
     "id": 12345,
     "language": "java",
-    "last_reported_at": "` + testTimeString + `",
+    "last_reported_at": "` + testTimeRawString + `",
     "links": {
       "alert_policy": 123,
       "application_hosts": [
@@ -64,9 +64,6 @@ const (
     }
   }
 `
-)
-
-var (
 	testApplication = Application{
 		ID:             12345,
 		Name:           "test.example.com",
