@@ -75,7 +75,7 @@ func (c *Client) GetApplicationMetrics(id int, options *ApplicationMetricOptions
 // ApplicationMetricDataOptions.
 func (c *Client) GetApplicationMetricData(id int, names []string, options *ApplicationMetricDataOptions) (*ApplicationMetricDataResp, error) {
 	resp := &struct {
-		MetricData ApplicationMetricDataResp `json:"metric_data",omitempty`
+		MetricData ApplicationMetricDataResp `json:"metric_data,omitempty"`
 	}{}
 	if options == nil {
 		options = &ApplicationMetricDataOptions{}
