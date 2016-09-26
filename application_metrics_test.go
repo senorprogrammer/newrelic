@@ -34,7 +34,7 @@ func TestGetApplicationMetricData(t *testing.T) {
 		}
 		c, s := initHTTP(t, testAPIKey, f)
 		defer s.Close()
-		resp, err := c.GetApplicationMetricData(tt.in.id, tt.in.names, tt.in.options)
+		resp, err := c.GetApplicationMetricData(tt.in.id, tt.in.Names, tt.in.options)
 		t.Logf("Checking err...")
 		expect(t, tt.out.err, err)
 		t.Logf("Checking output...")

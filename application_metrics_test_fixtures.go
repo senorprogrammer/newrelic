@@ -2,24 +2,24 @@ package newrelic
 
 type getApplicationMetricsTestsInput struct {
 	id      int
-	options *ApplicationMetricOptions
+	options *MetricsOptions
 	data    string
 }
 
 type getApplicationMetricsTestsOutput struct {
-	data []ApplicationMetric
+	data []Metric
 	err  error
 }
 
 type getApplicationMetricDataTestsInput struct {
 	id      int
-	names   []string
-	options *ApplicationMetricDataOptions
+	Names   []string
+	options *MetricDataOptions
 	data    string
 }
 
 type getApplicationMetricDataTestsOutput struct {
-	data *ApplicationMetricDataResp
+	data *MetricDataResponse
 	err  error
 }
 
@@ -36,7 +36,7 @@ const (
 )
 
 var (
-	testApplicationMetric = ApplicationMetric{
+	testApplicationMetric = Metric{
 		Name:   "testMetric",
 		Values: []string{"testValue1", "testValue2"},
 	}
@@ -54,7 +54,7 @@ var (
 					`]}`,
 			},
 			getApplicationMetricsTestsOutput{
-				data: []ApplicationMetric{
+				data: []Metric{
 					testApplicationMetric,
 					testApplicationMetric,
 				},
@@ -63,11 +63,11 @@ var (
 		},
 	}
 	applicationMetricOptionsStringerTests = []struct {
-		in  *ApplicationMetricOptions
+		in  *MetricsOptions
 		out string
 	}{
 		{
-			&ApplicationMetricOptions{},
+			&MetricsOptions{},
 			"",
 		},
 		{
@@ -75,7 +75,7 @@ var (
 			"",
 		},
 		{
-			&ApplicationMetricOptions{
+			&MetricsOptions{
 				Name: "testName",
 				Page: 5,
 			},
@@ -84,11 +84,11 @@ var (
 		},
 	}
 	applicationMetricDataOptionsStringerTests = []struct {
-		in  *ApplicationMetricDataOptions
+		in  *MetricDataOptions
 		out string
 	}{
 		{
-			&ApplicationMetricDataOptions{},
+			&MetricDataOptions{},
 			"",
 		},
 		{
@@ -96,8 +96,8 @@ var (
 			"",
 		},
 		{
-			&ApplicationMetricDataOptions{
-				names:     Array{[]string{"test1", "test2"}},
+			&MetricDataOptions{
+				Names:     Array{[]string{"test1", "test2"}},
 				Values:    Array{[]string{"value1", "value2"}},
 				From:      testTime,
 				To:        testTime,
@@ -137,10 +137,10 @@ var (
     }
   }
 `
-	testApplicationMetricData = ApplicationMetricData{
+	testApplicationMetricData = MetricData{
 		Name: "testName",
-		Timeslices: []ApplicationTimeslice{
-			ApplicationTimeslice{
+		Timeslices: []MetricTimeslice{
+			MetricTimeslice{
 				From: testTime,
 				To:   testTime,
 				Values: map[string]float64{
@@ -156,17 +156,17 @@ var (
 		{
 			getApplicationMetricDataTestsInput{
 				id:      1234,
-				names:   []string{"name1", "name2"},
-				options: &ApplicationMetricDataOptions{},
+				Names:   []string{"name1", "name2"},
+				options: &MetricDataOptions{},
 				data:    testApplicationMetricDataJSON,
 			},
 			getApplicationMetricDataTestsOutput{
-				data: &ApplicationMetricDataResp{
+				data: &MetricDataResponse{
 					From:            testTime,
 					To:              testTime,
 					MetricsFound:    []string{"name1"},
 					MetricsNotFound: []string{"name2"},
-					Metrics:         []ApplicationMetricData{testApplicationMetricData},
+					Metrics:         []MetricData{testApplicationMetricData},
 				},
 				err: nil,
 			},
