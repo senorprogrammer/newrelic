@@ -61,7 +61,7 @@ func (c *Client) GetApplicationHosts(id int, options *ApplicationHostsOptions) (
 		ApplicationHosts []ApplicationHost `json:"application_hosts,omitempty"`
 	}{}
 	path := "applications/" + strconv.Itoa(id) + "/hosts.json"
-	err := c.doGet(path, nil, resp)
+	err := c.doGet(path, options, resp)
 	if err != nil {
 		return nil, err
 	}
