@@ -69,6 +69,19 @@ func (c *Client) GetApplicationInstances(appID int, options *ApplicationInstance
 	return resp.ApplicationInstances, nil
 }
 
+// GetApplicationInstance returns a single Application Instance associated
+// with the given application ID and instance ID
+func (c *Client) GetApplicationInstance(appID, instanceID int) (*ApplicationInstance, error) {
+	resp := &struct {
+		ApplicationInstance ApplicationInstance `json:"application_instance,omitempty"`
+	}{}
+	path := "applications/" + strconv.Itoa(appID) + "/instances/" + strconv.Itoa(instanceID) + ".json"
+	err := c.doGet(path, nil, resp)
+	if err != nil {
+		return nil, err
+	}
+	return &resp.ApplicationInstance, nil
+}
 func (o *ApplicationInstancesOptions) String() string {
 	if o == nil {
 		return ""
