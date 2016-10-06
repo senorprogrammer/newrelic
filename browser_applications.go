@@ -1,15 +1,20 @@
 package newrelic
 
+// BrowserApplicationsFilter is the filtering component of
+// BrowserApplicationsOptions
 type BrowserApplicationsFilter struct {
 	Name string
 	IDs  []int
 }
 
+// BrowserApplicationsOptions provides a filtering mechanism for
+// GetBrowserApplications.
 type BrowserApplicationsOptions struct {
 	Filter BrowserApplicationsFilter
 	Page   int
 }
 
+// BrowserApplication describes a New Relic Browser Application.
 type BrowserApplication struct {
 	ID                   int    `json:"id,omitempty"`
 	Name                 string `json:"name,omitempty"`
