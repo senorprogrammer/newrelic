@@ -44,7 +44,7 @@ type ApplicationHost struct {
 // ApplicationHostsOptions when calling GetApplicationHosts.
 type ApplicationHostsFilter struct {
 	Hostname string
-	Ids      []string
+	IDs      []int
 }
 
 // ApplicationHostsOptions provide a means to filter results when calling
@@ -88,7 +88,7 @@ func (o *ApplicationHostsOptions) String() string {
 	}
 	return encodeGetParams(map[string]interface{}{
 		"filter[hostname]": o.Filter.Hostname,
-		"filter[ids]":      o.Filter.Ids,
+		"filter[ids]":      o.Filter.IDs,
 		"page":             o.Page,
 	})
 }

@@ -60,7 +60,7 @@ type Application struct {
 type ApplicationFilter struct {
 	Name     string
 	Host     string
-	Ids      []string
+	IDs      []int
 	Language string
 }
 
@@ -78,7 +78,7 @@ func (o *ApplicationOptions) String() string {
 	return encodeGetParams(map[string]interface{}{
 		"filter[name]":     o.Filter.Name,
 		"filter[host]":     o.Filter.Host,
-		"filter[ids]":      o.Filter.Ids,
+		"filter[ids]":      o.Filter.IDs,
 		"filter[language]": o.Filter.Language,
 		"page":             o.Page,
 	})

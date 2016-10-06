@@ -45,7 +45,7 @@ type ApplicationInstance struct {
 // ApplicationInstancesOptions when calling GetApplicationInstances.
 type ApplicationInstancesFilter struct {
 	Hostname string
-	Ids      []string
+	IDs      []int
 }
 
 // ApplicationInstancesOptions provides a means to filter results when calling
@@ -88,7 +88,7 @@ func (o *ApplicationInstancesOptions) String() string {
 	}
 	return encodeGetParams(map[string]interface{}{
 		"filter[hostname]": o.Filter.Hostname,
-		"filter[ids]":      o.Filter.Ids,
+		"filter[ids]":      o.Filter.IDs,
 		"page":             o.Page,
 	})
 }

@@ -146,13 +146,13 @@ var (
 				Filter: ApplicationFilter{
 					Name:     "testName",
 					Host:     "testHost",
-					Ids:      []string{"test1", "test2"},
+					IDs:      []int{123, 456},
 					Language: "java",
 				},
 				Page: 5,
 			},
 			`filter%5Bhost%5D=testHost` +
-				`&filter%5Bids%5D=test1%2Ctest2` +
+				`&filter%5Bids%5D=123%2C456` +
 				`&filter%5Blanguage%5D=java` +
 				`&filter%5Bname%5D=testName` +
 				`&page=5`,

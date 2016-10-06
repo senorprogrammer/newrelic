@@ -69,6 +69,15 @@ func encodeGetParams(params map[string]interface{}) string {
 			if len(val) != 0 {
 				s.Add(k, strings.Join(val, ","))
 			}
+		case []int:
+			val := v.([]int)
+			arr := []string{}
+			for _, v := range val {
+				arr = append(arr, strconv.Itoa(v))
+			}
+			if len(arr) != 0 {
+				s.Add(k, strings.Join(arr, ","))
+			}
 		case time.Time:
 			val := v.(time.Time)
 			if !val.IsZero() {
