@@ -1,6 +1,7 @@
 package newrelic
 
 import (
+	"strconv"
 	"time"
 )
 
@@ -10,7 +11,7 @@ type KeyTransactionsFilter struct {
 	IDs  []int
 }
 
-// KeyTransactionOptions provides a filtering mechanism for GetKeyTransactions.
+// KeyTransactionsOptions provides a filtering mechanism for GetKeyTransactions.
 type KeyTransactionsOptions struct {
 	Filter KeyTransactionsFilter
 	Page   int
@@ -24,7 +25,7 @@ type KeyTransactionLinks struct {
 
 // KeyTransaction represents a New Relic Key Transaction.
 type KeyTransaction struct {
-	ID                 int                 `json:"int,omitempty"`
+	ID                 int                 `json:"id,omitempty"`
 	Name               string              `json:"name,omitempty"`
 	TransactionName    string              `json:"transaction_name,omitempty"`
 	HealthStatus       string              `json:"health_status,omitempty"`
@@ -47,6 +48,20 @@ func (c *Client) GetKeyTransactions(opt *KeyTransactionsOptions) ([]KeyTransacti
 		return nil, err
 	}
 	return resp.KeyTransactions, nil
+}
+
+// GetKeyTransaction will return a single New Relic Key Transaction for the
+// given id.
+func (c *Client) GetKeyTransaction(id int) (*KeyTransaction, error) {
+	resp := &struct {
+		KeyTransaction *KeyTransaction `json:"key_transaction,omitempty"`
+	}{}
+	path := "key_transactions/" + strconv.Itoa(id) + ".json"
+	err := c.doGet(path, nil, resp)
+	if err != nil {
+		return nil, err
+	}
+	return resp.KeyTransaction, nil
 }
 
 func (o *KeyTransactionsOptions) String() string {
