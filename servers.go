@@ -1,6 +1,7 @@
 package newrelic
 
 import (
+	"strconv"
 	"time"
 )
 
@@ -61,6 +62,19 @@ func (c *Client) GetServers(opt *ServersOptions) ([]Server, error) {
 		return nil, err
 	}
 	return resp.Servers, nil
+}
+
+// GetServer will return a single New Relic Server for the given id.
+func (c *Client) GetServer(id int) (*Server, error) {
+	resp := &struct {
+		Server *Server `json:"server,omitempty"`
+	}{}
+	path := "servers/" + strconv.Itoa(id) + ".json"
+	err := c.doGet(path, nil, resp)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Server, nil
 }
 
 func (o *ServersOptions) String() string {
