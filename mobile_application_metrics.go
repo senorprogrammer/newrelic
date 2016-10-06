@@ -4,7 +4,7 @@ import (
 	"strconv"
 )
 
-// GetMobileAplicationMetrics will return a slice of Metric items for a
+// GetMobileApplicationMetrics will return a slice of Metric items for a
 // particular MobileAplication ID, optionally filtering by
 // MetricsOptions.
 func (c *Client) GetMobileApplicationMetrics(id int, options *MetricsOptions) ([]Metric, error) {
@@ -19,7 +19,7 @@ func (c *Client) GetMobileApplicationMetrics(id int, options *MetricsOptions) ([
 	return resp.Metrics, nil
 }
 
-// GetMobileAplicationMetricData will return all metric data for a particular
+// GetMobileApplicationMetricData will return all metric data for a particular
 // MobileAplication and slice of metric names, optionally filtered by
 // MetricDataOptions.
 func (c *Client) GetMobileApplicationMetricData(id int, names []string, options *MetricDataOptions) (*MetricDataResponse, error) {

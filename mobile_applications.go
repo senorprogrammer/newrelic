@@ -24,7 +24,7 @@ type MobileApplicationCrashSummary struct {
 	CrashRate            float64 `json:"crash_rate,omitempty"`
 }
 
-// ApplicationHost describes a New Relic Application Host.
+// MobileApplication describes a New Relic Application Host.
 type MobileApplication struct {
 	ID            int                           `json:"id,omitempty"`
 	Name          string                        `json:"name,omitempty"`
@@ -47,8 +47,7 @@ func (c *Client) GetMobileApplications() ([]MobileApplication, error) {
 	return resp.Applications, nil
 }
 
-// GetApplicationHost returns a single Application Host associated with the
-// given application host ID and host ID.
+// GetMobileApplication returns a single Mobile Application with the id.
 func (c *Client) GetMobileApplication(id int) (*MobileApplication, error) {
 	resp := &struct {
 		Application MobileApplication `json:"application,omitempty"`
