@@ -1,10 +1,12 @@
 package newrelic
 
+// AlertPolicyLinks describes object links for Alert Policies.
 type AlertPolicyLinks struct {
 	NotificationChannels []int `json:"notification_channels,omitempty"`
 	Servers              []int `json:"servers,omitempty"`
 }
 
+// AlertPolicyCondition describes conditions that trigger an AlertPolicy.
 type AlertPolicyCondition struct {
 	ID             int     `json:"id,omitempty"`
 	Enabled        bool    `json:"enabled,omitempty"`
@@ -46,7 +48,7 @@ func (o *AlertPolicyOptions) String() string {
 	})
 }
 
-// GetAlertPolices will return a slice of AlertPolicy items, optionally
+// GetAlertPolicies will return a slice of AlertPolicy items, optionally
 // filtering by AlertPolicyOptions.
 func (c *Client) GetAlertPolicies(options *AlertPolicyOptions) ([]AlertPolicy, error) {
 	resp := &struct {
