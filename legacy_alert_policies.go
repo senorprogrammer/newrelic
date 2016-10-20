@@ -1,5 +1,9 @@
 package newrelic
 
+import (
+	"strconv"
+)
+
 // LegacyAlertPolicyLinks describes object links for Alert Policies.
 type LegacyAlertPolicyLinks struct {
 	NotificationChannels []int `json:"notification_channels,omitempty"`
@@ -48,7 +52,19 @@ func (o *LegacyAlertPolicyOptions) String() string {
 	})
 }
 
-// GetLegacyAlertPolicies will return a slice of legacy LegacyAlertPolicy items,
+// GetLegacyAlertPolicy will return the LegacyAlertPolicy with  particular ID.
+func (c *Client) GetLegacyAlertPolicy(id int) (*LegacyAlertPolicy, error) {
+	resp := &struct {
+		LegacyAlertPolicy *LegacyAlertPolicy `json:"alert_policy,omitempty"`
+	}{}
+	err := c.doGet("alert_policies/"+strconv.Itoa(id)+".json", nil, resp)
+	if err != nil {
+		return nil, err
+	}
+	return resp.LegacyAlertPolicy, nil
+}
+
+// GetLegacyAlertPolicies will return a slice of LegacyAlertPolicy items,
 // optionally filtering by LegacyAlertPolicyOptions.
 func (c *Client) GetLegacyAlertPolicies(options *LegacyAlertPolicyOptions) ([]LegacyAlertPolicy, error) {
 	resp := &struct {
