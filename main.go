@@ -14,8 +14,12 @@ import (
 	"time"
 )
 
-// DefaultAPIURL is the default base URL for New Relic's latest API.
-const DefaultAPIURL = "https://api.newrelic.com/v2/"
+const (
+	// defaultAPIURL is the default base URL for New Relic's latest API.
+	defaultAPIURL = "https://api.newrelic.com/v2/"
+	// defaultTimeout is the default timeout for the http.Client used.
+	defaultTimeout = 5 * time.Second
+)
 
 // Client provides a set of methods to interact with the New Relic API.
 type Client struct {
@@ -24,15 +28,21 @@ type Client struct {
 	url        *url.URL
 }
 
-// NewClient returns a new Client object for interfacing with the New Relic API.
-func NewClient(apiKey string) *Client {
-	u, err := url.Parse(DefaultAPIURL)
+// NewWithHttpClient returns a new Client object for interfacing with the New
+// Relic API, allowing for override of the http.Client object.
+func NewWithHttpClient(apiKey string, client *http.Client) *Client {
+	u, err := url.Parse(defaultAPIURL)
 	if err != nil {
 		panic(err)
 	}
 	return &Client{
 		apiKey:     apiKey,
-		httpClient: &http.Client{Timeout: 5 * time.Second},
+		httpClient: client,
 		url:        u,
 	}
+}
+
+// NewClient returns a new Client object for interfacing with the New Relic API.
+func NewClient(apiKey string) *Client {
+	return NewWithHttpClient(apiKey, &http.Client{Timeout: defaultTimeout})
 }
