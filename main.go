@@ -28,9 +28,9 @@ type Client struct {
 	url        *url.URL
 }
 
-// NewWithHttpClient returns a new Client object for interfacing with the New
+// NewWithHTTPClient returns a new Client object for interfacing with the New
 // Relic API, allowing for override of the http.Client object.
-func NewWithHttpClient(apiKey string, client *http.Client) *Client {
+func NewWithHTTPClient(apiKey string, client *http.Client) *Client {
 	u, err := url.Parse(defaultAPIURL)
 	if err != nil {
 		panic(err)
@@ -44,5 +44,5 @@ func NewWithHttpClient(apiKey string, client *http.Client) *Client {
 
 // NewClient returns a new Client object for interfacing with the New Relic API.
 func NewClient(apiKey string) *Client {
-	return NewWithHttpClient(apiKey, &http.Client{Timeout: defaultTimeout})
+	return NewWithHTTPClient(apiKey, &http.Client{Timeout: defaultTimeout})
 }
