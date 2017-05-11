@@ -76,3 +76,53 @@ func (o *MetricDataOptions) String() string {
 		"raw":       o.Raw,
 	})
 }
+
+// MetricClient implements a generic New Relic metrics client.
+// This is used as a general client for fetching metric names and data.
+type MetricClient struct {
+	newRelicClient *Client
+}
+
+// NewMetricClient creates and returns a new MetricClient.
+func NewMetricClient(newRelicClient *Client) *MetricClient {
+	return &MetricClient{
+		newRelicClient: newRelicClient,
+	}
+}
+
+// GetMetrics is a generic function for fetching a list of available metrics
+// from different parts of New Relic.
+// Example: Application metrics, Component metrics, etc.
+func (mc *MetricClient) GetMetrics(path string, options *MetricsOptions) ([]Metric, error) {
+	resp := &struct {
+		Metrics []Metric `json:"metrics,omitempty"`
+	}{}
+
+	err := mc.newRelicClient.doGet(path, options, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.Metrics, nil
+}
+
+// GetMetricData is a generic function for fetching data for a specific metric.
+// from different parts of New Relic.
+// Example: Application metric data, Component metric data, etc.
+func (mc *MetricClient) GetMetricData(path string, names []string, options *MetricDataOptions) (*MetricDataResponse, error) {
+	resp := &struct {
+		MetricData MetricDataResponse `json:"metric_data,omitempty"`
+	}{}
+
+	if options == nil {
+		options = &MetricDataOptions{}
+	}
+
+	options.Names = Array{names}
+	err := mc.newRelicClient.doGet(path, options, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp.MetricData, nil
+}
